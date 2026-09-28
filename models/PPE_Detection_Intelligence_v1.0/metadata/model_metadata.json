@@ -1,0 +1,45 @@
+{
+    "model_name": "Construction PPE Detection Intelligence",
+    "version": "1.0",
+    "model_architecture": "YOLO11n",
+    "task": "Object Detection",
+    "framework": "Ultralytics",
+    "classes": {
+        "0": "helmet",
+        "1": "gloves",
+        "2": "vest",
+        "3": "boots",
+        "4": "goggles",
+        "5": "none",
+        "6": "Person",
+        "7": "no_helmet",
+        "8": "no_goggle",
+        "9": "no_gloves",
+        "10": "no_boots"
+    },
+    "training": {
+        "epochs": 50,
+        "image_size": 640,
+        "model": "yolo11n.pt"
+    },
+    "test_metrics": {
+        "precision": 0.5801,
+        "recall": 0.5371,
+        "mAP50": 0.5433,
+        "mAP50_95": 0.2716
+    },
+    "validation_metrics": {
+        "precision": 0.718,
+        "recall": 0.546,
+        "mAP50": 0.593,
+        "mAP50_95": 0.293
+    },
+    "primary_use": "Construction site PPE compliance and safety monitoring",
+    "missing_ppe_classes": [
+        "no_helmet",
+        "no_goggle",
+        "no_gloves",
+        "no_boots"
+    ],
+    "model_status": "Research/Prototype v1.0"
+}

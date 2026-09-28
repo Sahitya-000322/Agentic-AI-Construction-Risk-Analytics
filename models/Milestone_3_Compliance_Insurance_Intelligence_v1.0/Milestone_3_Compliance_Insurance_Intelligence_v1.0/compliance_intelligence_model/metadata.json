@@ -1,0 +1,45 @@
+{
+    "model_name": "Compliance Intelligence Model",
+    "model_type": "RandomForestClassifier",
+    "version": "1.0",
+    "dataset_records": 76310,
+    "features": [
+        "agencies_with_violations",
+        "osha_violations",
+        "osha_penalties",
+        "osha_fatalities",
+        "whd_cases",
+        "whd_backwages",
+        "msha_violations",
+        "msha_penalties",
+        "epa_noncompliance_quarters",
+        "epa_penalties",
+        "nlrb_cases",
+        "debarred"
+    ],
+    "target": "risk_category",
+    "risk_categories": [
+        "Low",
+        "Medium",
+        "High"
+    ],
+    "risk_score_mapping": {
+        "Low": "0-19.99",
+        "Medium": "20-49.99",
+        "High": "50-100"
+    },
+    "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 12,
+        "class_weight": "balanced",
+        "random_state": 42
+    },
+    "validation": {
+        "method": "5-Fold Stratified Cross-Validation",
+        "accuracy": 0.8421,
+        "precision_macro": 0.583,
+        "recall_macro": 0.7341,
+        "f1_macro": 0.624
+    },
+    "purpose": "Predict construction compliance risk category from multi-agency violation indicators."
+}

@@ -1,0 +1,15 @@
+{
+    "features": [
+        "Workers",
+        "Budget",
+        "Progress",
+        "Weather_Rain",
+        "Weather_Sunny"
+    ],
+    "target": "Delay",
+    "target_mapping": {
+        "No": 0,
+        "Yes": 1
+    },
+    "model_type": "GradientBoostingClassifier"
+}

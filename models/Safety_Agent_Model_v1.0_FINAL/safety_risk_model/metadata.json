@@ -1,0 +1,19 @@
+{
+    "model_name": "Gradient Boosting",
+    "model_type": "GradientBoostingClassifier",
+    "target": "Risk_Level",
+    "features": [
+        "Helmet",
+        "Vest",
+        "Gloves",
+        "Safety_Shoes",
+        "Accident"
+    ],
+    "classes": [
+        "High",
+        "Low",
+        "Medium"
+    ],
+    "training_records": 1000,
+    "random_state": 42
+}

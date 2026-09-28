@@ -1,0 +1,36 @@
+{
+    "project": "Construction Intelligence Hub",
+    "milestone": "Milestone 3",
+    "milestone_name": "Compliance and Insurance Intelligence",
+    "version": "1.0",
+    "status": "BACKEND READY",
+    "components": {
+        "compliance": {
+            "model": "RandomForestClassifier",
+            "version": "1.0",
+            "dataset_records": 76310,
+            "cv_accuracy": 0.8421,
+            "cv_precision_macro": 0.583,
+            "cv_recall_macro": 0.7341,
+            "cv_f1_macro": 0.624
+        },
+        "insurance": {
+            "model": "RandomForestClassifier",
+            "version": "1.0",
+            "dataset_records": 58592,
+            "cv_accuracy": 0.6901,
+            "cv_precision": 0.0989,
+            "cv_recall": 0.4741,
+            "cv_f1": 0.1637,
+            "cv_roc_auc": 0.638
+        }
+    },
+    "backend_ready": true,
+    "notes": [
+        "Both models include preprocessing inside their saved pipelines.",
+        "Compliance risk category is derived from source risk_score.",
+        "Insurance source dataset is vehicle insurance claims data, not construction-specific.",
+        "Models are intended to provide decision-support intelligence, not definitive legal, compliance, or insurance decisions."
+    ],
+    "created_date": "2026-09-04"
+}

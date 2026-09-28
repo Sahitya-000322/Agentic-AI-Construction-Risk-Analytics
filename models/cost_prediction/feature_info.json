@@ -1,0 +1,10 @@
+{
+    "features": [
+        "MaterialCost",
+        "LaborCost",
+        "EquipmentCost",
+        "Budget"
+    ],
+    "target": "Overrun",
+    "model_type": "RandomForestClassifier"
+}
