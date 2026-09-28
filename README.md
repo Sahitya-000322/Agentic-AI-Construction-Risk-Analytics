@@ -82,6 +82,7 @@ Agentic-AI-Construction-Risk-Analytics/
 ├── reports/                    # Generated reports
 ├── .gitignore
 └── README.md
+
 🔐 Authentication
 
 The application uses JWT (JSON Web Token) authentication to secure protected APIs.
