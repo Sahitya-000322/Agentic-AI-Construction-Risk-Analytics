@@ -7,7 +7,6 @@ from app.models.hazard import Hazard
 from app.models.user import User
 from app.schemas.hazard import HazardOut
 
-
 router = APIRouter(prefix="/api/hazards", tags=["hazards"])
 
 

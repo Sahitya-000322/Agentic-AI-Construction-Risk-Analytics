@@ -7,7 +7,6 @@ from app.models.alert import Alert
 from app.models.user import User
 from app.schemas.alert import AlertOut
 
-
 router = APIRouter(prefix="/api/alerts", tags=["alerts"])
 
 

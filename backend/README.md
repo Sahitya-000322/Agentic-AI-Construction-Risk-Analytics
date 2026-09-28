@@ -10,8 +10,10 @@ FastAPI + PostgreSQL (Neon) backend powering the **Agentic AI Construction Risk 
 - **SQLAlchemy 2.0** — ORM (declarative, mapped_column)
 - **PostgreSQL (Neon Cloud, SSL)** — `psycopg` v3 driver
 - **Pydantic v2** + **pydantic-settings**
-- **JWT (python-jose)** + **bcrypt** for auth
+- **JWT (PyJWT)** + **bcrypt** for auth
+- **slowapi** — rate limiting (10/min on login)
 - **pandas** for CSV ingestion in `seed.py`
+- **Optional ML/vision** (`requirements-ml.txt`): ultralytics, opencv, scikit-learn, torch
 
 ---
 
@@ -20,9 +22,16 @@ FastAPI + PostgreSQL (Neon) backend powering the **Agentic AI Construction Risk 
 ```bash
 cd backend
 pip install -r requirements.txt
+# Optional — only for PPE vision + local ML inference:
+pip install -r requirements-ml.txt
 ```
 
 `.env` is preconfigured with the Neon DB connection string. Edit `JWT_SECRET` in production.
+
+> Model binaries (`.pkl` / `.joblib` / `.pt`) are **not** in git. Place them
+> under `<repo-root>/ml/models/` or set `MODEL_DIR` / `PPE_MODEL_PATH` env
+> vars — see `docs/MODELS.md`. Missing files yield clear `503` responses,
+> never crashes.
 
 ---
 
@@ -63,7 +72,7 @@ Tables are auto-created on startup (`Base.metadata.create_all`).
 
 ---
 
-## 📚 API Endpoints (30 total)
+## 📚 API Endpoints (42 total)
 
 ### System (public)
 | Method | Endpoint | Description |
@@ -117,6 +126,28 @@ Tables are auto-created on startup (`Base.metadata.create_all`).
 | GET | `/api/reports/performance` | /reports |
 | GET | `/api/reports/insight` | /reports |
 
+### PPE vision (protected) — needs `requirements-ml.txt` + model file
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/ppe/health` | Model availability status |
+| POST | `/api/ppe/detect` | Detect PPE violations in uploaded image (multipart, ≤10 MB) |
+
+### ML predictions (protected) — needs model files under `ml/models/`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/ml/models` | Availability status per model |
+| POST | `/api/ml/predict/safety-risk` | PPE-based safety risk class |
+| POST | `/api/ml/predict/injury` | Injury severity (feature dict) |
+| POST | `/api/ml/predict/delay` | Delay Yes/No |
+| POST | `/api/ml/predict/cost` | Cost overrun class |
+| POST | `/api/ml/predict/schedule` | Schedule delay (feature dict) |
+| POST | `/api/ml/predict/project-delay` | Project delay (feature dict) |
+| POST | `/api/ml/predict/resource` | Resource shortage (feature dict) |
+| POST | `/api/ml/predict/compliance` | Compliance class (feature dict) |
+| POST | `/api/ml/predict/insurance` | Insurance class (feature dict) |
+
+Missing models answer `503` with setup guidance (see `docs/MODELS.md`).
+
 ---
 
 ## 🗄️ Database Models (16)
@@ -145,12 +176,15 @@ backend/
 │   ├── database.py          # SQLAlchemy engine
 │   ├── security.py          # JWT + bcrypt
 │   ├── dependencies.py      # get_current_user
+│   ├── limiter.py             # Shared slowapi limiter (10/min login)
 │   ├── models/              # 16 SQLAlchemy models
-│   ├── schemas/             # 16 Pydantic schemas
-│   └── routers/             # 10 API routers
+│   ├── schemas/             # 17 Pydantic schemas
+│   ├── routers/             # 13 API routers (auth, dashboard, ppe, ml, ...)
+│   └── services/            # PPE vision + ML registry/predictors
 ├── seed.py                  # DB seeder
 ├── .env                     # Neon DB + JWT
 ├── .env.example
-├── requirements.txt
+├── requirements.txt         # Core deps
+├── requirements-ml.txt      # Optional vision/ML deps
 └── README.md
 ```

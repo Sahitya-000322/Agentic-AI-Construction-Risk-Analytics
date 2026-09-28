@@ -7,7 +7,6 @@ from app.models.recommendation import Recommendation
 from app.models.user import User
 from app.schemas.recommendation import RecommendationOut
 
-
 router = APIRouter(prefix="/api/recommendations", tags=["recommendations"])
 
 

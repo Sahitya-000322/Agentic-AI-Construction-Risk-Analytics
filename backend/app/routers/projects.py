@@ -11,7 +11,6 @@ from app.schemas.project import (
     ProjectSummaryOut,
 )
 
-
 router = APIRouter(prefix="/api/projects", tags=["projects"])
 
 
@@ -24,11 +23,17 @@ def list_projects(db: Session = Depends(get_db), _: User = Depends(get_current_u
 def get_summary(db: Session = Depends(get_db), _: User = Depends(get_current_user)):
     rows = db.query(Project).all()
     if not rows:
-        raise HTTPException(status_code=404, detail="No projects available")
+        return ProjectSummaryOut(total_projects=0, on_schedule=0, at_risk=0, completed=0)
     return ProjectSummaryOut(
         total_projects=len(rows),
-        on_schedule=sum(1 for p in rows if p.status.lower() in ("on track", "active") and p.risk_level.lower() != "high"),
-        at_risk=sum(1 for p in rows if p.risk_level.lower() in ("high", "medium") and p.status.lower() == "delayed"),
+        on_schedule=sum(
+            1 for p in rows
+            if p.status.lower() in ("on track", "active") and p.risk_level.lower() != "high"
+        ),
+        at_risk=sum(
+            1 for p in rows
+            if p.risk_level.lower() in ("high", "medium") and p.status.lower() == "delayed"
+        ),
         completed=sum(1 for p in rows if p.progress >= 100 or p.status.lower() == "completed"),
     )
 
@@ -37,7 +42,9 @@ def get_summary(db: Session = Depends(get_db), _: User = Depends(get_current_use
 def get_performance(db: Session = Depends(get_db), _: User = Depends(get_current_user)):
     rows = db.query(Project).all()
     if not rows:
-        raise HTTPException(status_code=404, detail="No projects available")
+        return ProjectPerformanceOut(
+            average_progress=0, budget_utilization=0, safety_compliance=0, schedule_health=0
+        )
     avg_progress = int(sum(p.progress for p in rows) / len(rows))
     return ProjectPerformanceOut(
         average_progress=avg_progress,
@@ -51,5 +58,5 @@ def get_performance(db: Session = Depends(get_db), _: User = Depends(get_current
 def get_project(project_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_user)):
     project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
-        raise HTTPException(status_code=404, detail="Project not found")
+        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
     return project

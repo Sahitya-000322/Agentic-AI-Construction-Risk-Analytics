@@ -3,7 +3,6 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from app.config import settings
 
-
 engine = create_engine(
     settings.DATABASE_URL,
     connect_args={"sslmode": "require"} if "sslmode" in settings.DATABASE_URL or "neon" in settings.DATABASE_URL else {},

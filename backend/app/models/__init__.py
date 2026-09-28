@@ -14,15 +14,17 @@ from app.models.risk_summary import RiskSummary
 from app.models.risk_trend import RiskTrend
 from app.models.user import User
 from app.models.zone import Zone
+from app.models.worker import Worker
+from app.models.attendance import Attendance
 
 __all__ = [
+    "KPI",
     "AIInsight",
     "AIModule",
     "AISiteStatus",
     "Alert",
     "Hazard",
     "Incident",
-    "KPI",
     "Milestone",
     "PerformanceMetric",
     "Project",
@@ -30,6 +32,8 @@ __all__ = [
     "Report",
     "RiskSummary",
     "RiskTrend",
+    "Attendance",
+    "Worker",
     "User",
     "Zone",
 ]

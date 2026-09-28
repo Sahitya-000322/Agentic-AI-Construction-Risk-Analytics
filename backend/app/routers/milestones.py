@@ -7,7 +7,6 @@ from app.models.milestone import Milestone
 from app.models.user import User
 from app.schemas.milestone import MilestoneOut
 
-
 router = APIRouter(prefix="/api/milestones", tags=["milestones"])
 
 

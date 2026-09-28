@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Projects from "./pages/Projects/Projects";
@@ -9,17 +9,95 @@ import RiskCenter from "./pages/RiskCenter/RiskCenter";
 import Reports from "./pages/Reports/Reports";
 import Settings from "./pages/Settings/Settings";
 
+import Login from "./pages/Login/Login";
+import { isAuthenticated } from "./api/client";
+
+function ProtectedRoute({ children }) {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/projects" element={<Projects />} />
-      <Route path="/safety" element={<Safety />} />
-      <Route path="/aihub" element={<AIHub />} />
-      <Route path="/analytics" element={<Analytics />} />
-      <Route path="/riskcenter" element={<RiskCenter />} />
-      <Route path="/reports" element={<Reports />} />
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/login" element={<Login />} />
+
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/projects"
+        element={
+          <ProtectedRoute>
+            <Projects />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/safety"
+        element={
+          <ProtectedRoute>
+            <Safety />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/aihub"
+        element={
+          <ProtectedRoute>
+            <AIHub />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/analytics"
+        element={
+          <ProtectedRoute>
+            <Analytics />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/riskcenter"
+        element={
+          <ProtectedRoute>
+            <RiskCenter />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/reports"
+        element={
+          <ProtectedRoute>
+            <Reports />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

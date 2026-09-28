@@ -9,7 +9,6 @@ from app.models.user import User
 from app.schemas.performance_metric import PerformanceMetricOut
 from app.schemas.report import ReportInsightOut, ReportOut, ReportSummaryOut
 
-
 router = APIRouter(prefix="/api/reports", tags=["reports"])
 
 

@@ -8,7 +8,6 @@ Sources:
 - All other tables -> hardcoded values that match Dashboard JSX exactly
 """
 
-import os
 import sys
 from pathlib import Path
 

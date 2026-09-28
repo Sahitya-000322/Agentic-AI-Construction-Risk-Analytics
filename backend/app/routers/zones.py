@@ -7,7 +7,6 @@ from app.models.user import User
 from app.models.zone import Zone
 from app.schemas.zone import ZoneOut
 
-
 router = APIRouter(prefix="/api/zones", tags=["zones"])
 
 
