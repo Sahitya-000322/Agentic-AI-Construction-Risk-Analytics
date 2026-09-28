@@ -40,3 +40,7 @@ reports/*
 # Temporary ML files
 *.tmp
 *.cache
+# Runtime and large files
+backend/logs/
+datasets/PPE_Dataset/
+runs/
